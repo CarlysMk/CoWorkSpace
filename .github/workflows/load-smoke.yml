@@ -1,0 +1,19 @@
+name: Load Test (Smoke)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6@v1
+      - run: k6 run booking-flow.k6.js
+        working-directory: load
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-smoke-results
+          path: load

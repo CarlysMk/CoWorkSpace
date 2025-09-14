@@ -1,0 +1,1 @@
+import http from 'k6/http'; import { sleep, check } from 'k6'; export const options={ vus:5, duration:'2m', thresholds:{ http_req_failed:['rate<0.02'], http_req_duration:['p(95)<800'] } }; const API=__ENV.API_BASE_URL||'http://localhost:3001/api'; export default function(){ let r=http.get(`${API}/spaces/available`); check(r,{ '200 spaces':x=>x.status===200 }); sleep(1);}

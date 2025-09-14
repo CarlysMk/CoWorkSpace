@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: CoWorkSpace API
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /auth/register:
+    post:
+      summary: Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: Token creato
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Token
+  /auth/me:
+    get:
+      summary: Profilo utente
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profilo utente
+  /locations:
+    get:
+      summary: Lista locations (opzionale query ?city=)
+      responses:
+        '200':
+          description: Lista sedi
+  /locations/{id}:
+    get:
+      summary: Dettaglio location
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Location dettagliata
+  /bookings:
+    post:
+      summary: Crea booking (autenticata)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                space_id:
+                  type: integer
+                start_ts:
+                  type: string
+                  format: date-time
+                end_ts:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Booking creato
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
+/admin/users:
+  get:
+    summary: Lista utenti (admin)
+    security: [{ bearerAuth: [] }]
+    responses: { '200': { description: Lista utenti } }
+  post:
+    summary: Crea utente (admin)
+    security: [{ bearerAuth: [] }]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email: { type: string }
+              password: { type: string }
+              role: { type: string, enum: [admin, manager, customer] }
+    responses: { '201': { description: Utente creato } }

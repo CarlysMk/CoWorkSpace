@@ -1,0 +1,20 @@
+/* === AdminWizard scoped CSS === */
+.steps{display:flex;gap:8px;margin:6px 0 16px}
+.step-dot{width:32px;height:32px;border-radius:999px;border:1px solid #cbd5e1;background:#fff;color:#334155;display:flex;align-items:center;justify-content:center;font-weight:600}
+.step-dot.active{background:#e0f2fe;color:#0c4a6e;border-color:#7dd3fc}
+
+.services-title{margin-top:12px;margin-bottom:6px}
+.services-grid{display:flex;flex-wrap:wrap;gap:10px}
+.service-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid #c7d2fe;background:#eef2ff;color:#3730a3;font-weight:500;cursor:pointer}
+.service-chip i{font-size:14px}
+.service-chip:hover{filter:brightness(.97);transform:translateY(-1px)}
+.service-chip.selected{background:#e0e7ff;border-color:#6366f1;color:#312e81}
+
+.card.soft{background:#f9fafb}
+.actions{margin-top:16px;display:flex;gap:8px}
+.space-row{display:flex;gap:8px;align-items:center;margin:8px 0}
+.space-row input, .space-row select{padding:6px 8px}
+
+.space-legend{display:grid;grid-template-columns: 1.2fr 1fr 0.6fr 0.8fr 96px;gap:8px;margin:6px 0 4px;color:#475569;font-size:.9rem}
+.space-row{display:grid;grid-template-columns: 1.2fr 1fr 0.6fr 0.8fr 96px;gap:8px;align-items:center;margin:6px 0}
+.space-row .btn.ghost{justify-self:start}

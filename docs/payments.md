@@ -1,0 +1,1 @@
+Stripe: set STRIPE_SECRET_KEY, WEBHOOK_SECRET, FRONTEND_BASE_URL. Fallback mock.

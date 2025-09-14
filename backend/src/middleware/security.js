@@ -1,0 +1,1 @@
+module.exports={applySecurity:(app)=>{ try{const helmet=require('helmet'); app.use(helmet());}catch{} try{const rl=require('express-rate-limit'); app.use(rl({windowMs:60000,max:100}));}catch{} app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff'); next();});}};

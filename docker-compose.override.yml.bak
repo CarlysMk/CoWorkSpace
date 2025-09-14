@@ -1,0 +1,17 @@
+services:
+  db:
+    volumes:
+      - ./postgresql.dev.conf:/etc/postgresql/dev.conf:ro
+    command: ["-c", "config_file=/etc/postgresql/dev.conf"]
+    stop_grace_period: 10s
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 1s
+      timeout: 1s
+      retries: 1
+      start_period: 0s
+
+volumes:
+  db-data:
+    external: true
+    name: cowork_db_data

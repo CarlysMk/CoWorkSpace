@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: coworkdb
+      POSTGRES_USER: cowork
+      POSTGRES_PASSWORD: coworkpass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./backend/scripts/init_db.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cowork -d coworkdb -h 127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    networks: [cw-net]
+
+  backend:
+    restart: unless-stopped
+    build: ./backend
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgres://cowork:coworkpass@db:5432/coworkdb
+      JWT_SECRET: change_this_secret
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3001:3001"   # API dirette (debug)
+    restart: unless-stopped
+    networks: [cw-net]
+
+  web:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"     # Frontend su http://localhost:8080
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks: [cw-net]
+
+volumes:
+  db-data:
+    name: cowork_db_data   # nome fisso => persistenza anche se rinomini la cartella
+
+networks:
+  cw-net:
+    driver: bridge
